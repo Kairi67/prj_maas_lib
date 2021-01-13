@@ -1,15 +1,17 @@
 <template lang="pug">
   div.records-grid
-    v-card(v-for="record in records" color="gray" max-width="344")
+    v-card(v-for="(record, i) in records" :key='i' color="gray" max-width="344")
       v-img(:src="record.Images[0].url" height="200px")
-      v-card-text {{record.Name}}
-      v-card-subtitle {{record.Description}}
+      v-card-title {{record.Name}}
+      v-card-text
+        div(class="my-2 subtitle-1") Italy
+        div {{record.Description}}
       v-card-actions
-        v-btn(color='orange lighten-2' text='')
-          | Explore
-        v-spacer
-        v-btn(icon='' @click='show = !show')
-          v-icon {{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+        v-chip(depressed color="dark") {{record.Type}}
+        v-tooltip(bottom)
+          template(v-slot:activator="{ on, attrs }")
+            v-btn(text underline color="dark" v-bind="attrs" v-on="on" @click="handleToLink(record.Link)") LINK
+          span {{record.Link}}
 </template>
 <script>
 export default {
@@ -24,10 +26,19 @@ export default {
     return {
       dialog: false,
       editedItem: {},
+      show: false,
     };
   },
   mounted() {},
-  methods: {},
+  methods: {
+    handleToLink(url) {
+      window.open(url, '_blank');
+    },
+    handleShowDetail(name) {
+      console.log(name);
+      this.show = !this.show;
+    },
+  },
 };
 </script>
 
@@ -35,6 +46,7 @@ export default {
 .records-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  grid-gap: 0.5rem;
+  grid-gap: 3.2rem 1.6rem;
+  padding: 1.6rem;
 }
 </style>

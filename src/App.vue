@@ -1,15 +1,22 @@
 <template lang="pug">
-  v-app
-    v-content.container.align-center.px-1
-      h2.font-weight-light.mb-2 MaaS.Land
-      v-container(fluid class="grey lighten-5 mb-6" style="min-height: 100vh;")
-        m-card(:records="records")
+  v-app#app
+    m-header
+    v-main.grey.lighten-3
+      v-container.loading-wrap(v-if="loading")
+        v-progress-circular(indeterminate :size="40" :width="4")
+      v-container(v-else)
+        v-row
+          v-col
+            v-sheet(min-height='80vh' rounded='lg')
+              m-card(:records="records")
 </template>
 <script>
+import MHeader from '@/components/MHeader';
 import MCard from '@/components/MCard';
 import axios from 'axios';
 export default {
   components: {
+    MHeader,
     MCard,
   },
   data() {
@@ -17,6 +24,7 @@ export default {
       records: {},
       dialog: false,
       editedItem: {},
+      loading: true,
     };
   },
   mounted() {
@@ -27,24 +35,35 @@ export default {
       this.editedItem = item || {};
       this.dialog = !this.dialog;
     },
-    fetchItems() {
+    async fetchItems() {
       const env = process.env;
-      axios
-        .get(
-          `https://api.airtable.com/v0/${env.VUE_APP_AIR_TABLE_APP}/${env.VUE_APP_AIR_TABLE_NAME}`,
-          { headers: { Authorization: 'Bearer ' + env.VUE_APP_API_TOKEN } }
-        )
-        .then((response) => {
-          this.records = response.data.records.map((item) => {
-            return item.fields;
+      try {
+        await axios
+          .get(
+            `https://api.airtable.com/v0/${env.VUE_APP_AIR_TABLE_APP}/${env.VUE_APP_AIR_TABLE_NAME}`,
+            { headers: { Authorization: 'Bearer ' + env.VUE_APP_API_TOKEN } }
+          )
+          .then((response) => {
+            this.loading = false;
+            this.records = response.data.records.map((item) => item.fields);
           });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.loading-wrap {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.v-progress-circular {
+  margin: 1rem auto;
+}
+</style>

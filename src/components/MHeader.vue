@@ -1,9 +1,9 @@
 <template lang="pug">
-  v-app-bar(app='' color='white' flat='')
-    v-container.py-0.fill-height
+  v-app-bar(color='white' flat='')
+    v-container.fill-height
       v-toolbar-title MaaS.Land
       v-spacer
-      v-text-field(@change="updateField($event)" label="search" flat hide-details rounded solo-inverted='')
+      v-text-field(@change="updateField($event)" label="search" outlined hide-details rounded)
       v-spacer
       v-btn(text='' @click="handleToLinkSubmit") SUBMIT
       v-btn(text='' @click="handleToLinkProfile") PROFILE

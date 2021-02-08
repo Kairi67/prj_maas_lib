@@ -13,7 +13,7 @@
 <script>
 import MHeader from '@/components/MHeader';
 import MCard from '@/components/MCard';
-import axios from 'axios';
+import { getListMaas } from '@/plugins/airtableClient';
 export default {
   components: {
     MHeader,
@@ -21,41 +21,35 @@ export default {
   },
   data() {
     return {
-      records: {},
+      records: [],
       dialog: false,
       editedItem: {},
-      loading: true,
+      loading: false,
     };
   },
   mounted() {
-    this.fetchItems();
+    this.fetchListItems();
   },
   methods: {
     showEditDialog(item) {
       this.editedItem = item || {};
       this.dialog = !this.dialog;
     },
-    async fetchItems() {
-      const env = process.env;
-      try {
-        await axios
-          .get(
-            `https://api.airtable.com/v0/${env.VUE_APP_AIR_TABLE_APP}/${env.VUE_APP_AIR_TABLE_NAME}`,
-            { headers: { Authorization: 'Bearer ' + env.VUE_APP_API_TOKEN } }
-          )
-          .then((response) => {
-            this.loading = false;
-            this.records = response.data.records.map((item) => item.fields);
-          });
-      } finally {
-        this.loading = false;
-      }
+    async fetchListItems() {
+      await getListMaas().eachPage((response) => {
+        console.log(response);
+        this.records = response.map((item) => item.fields);
+      });
     },
   },
 };
 </script>
 
 <style scoped>
+#app {
+  max-width: 1100px;
+  margin: 0 auto;
+}
 .loading-wrap {
   text-align: center;
   display: flex;

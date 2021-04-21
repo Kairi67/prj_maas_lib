@@ -21,7 +21,7 @@
             p.display-1.text--primary {{record.title}}
             p {{record.description}}
           v-card-actions.pt-0
-            v-btn(color='teal accent-4' @click='isOpen = false') Close
+            v-btn(color='teal accent-4' @click='isOpen = false') C
 </template>
 <script>
 export default {

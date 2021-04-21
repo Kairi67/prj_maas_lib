@@ -26,7 +26,5 @@ module.exports = {
     'no-unused-vars': 1,
     "no-var": "error",
     "prettier/prettier": "error",
-    "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off"
   }
 };

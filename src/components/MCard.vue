@@ -1,27 +1,28 @@
 <template lang="pug">
-  div.records-grid
-    v-card.hover(v-for="(record, i) in records" :key='i' color="gray" max-width="344")
-      v-img(:src="record.imageUrl[0].url" height="200px")
-      v-card-title {{record.title}}
-      v-card-subtitle
-        div(class="my-2 subtitle-1") {{record.country}}
-      v-card-actions
-        v-chip-group(column)
-          v-chip(depressed color="lime") {{record.category}}
-          v-chip(depressed color="lime") {{record.category}}
-      v-card-actions
-        v-btn(@click='handleExpandDetail(i)' text color="teal accent-4") Learn More
-        v-tooltip(bottom)
-          template(v-slot:activator="{ on, attrs }")
-            v-btn(text color="teal accent-4" v-bind="attrs" @click="handleToLink(record.link)") Link
-          span {{record.link}}
-      v-expand-transition
-        v-card.transition-fast-in-fast-out.v-card--reveal(v-show="isOpenIndex === i" v-if='isOpen' style='height: 100%;')
-          v-card-text.pb-0
-            p.display-1.text--primary {{record.title}}
-            p {{record.description}}
-          v-card-actions.pt-0
-            v-btn(color='teal accent-4' @click='isOpen = false') C
+.records-grid
+  v-skeleton-loader(v-if="loading" type="card-avatar, article")  
+  v-skeleton-loader(v-if="loading" type="card-avatar, article") 
+  v-skeleton-loader(v-if="loading" type="card-avatar, article") 
+  v-card.c-card01(v-else v-for='(record, i) in records', :key='i', @click='handleToLink(record.link)')
+    v-img(:src='record.imageUrl[0].url', height='200px')
+    v-card-text
+      v-card-title.pa-0.mb-2.font-weight-bold.text-h5 {{ record.title }}
+      .description-text {{ record.description }}
+      v-chip-group.mb-2(column)
+        v-chip.my-2(@click='handleSortByTags', small, color='indigo', text-color='white') {{ record.category }}
+        v-chip.my-2(small, color='indigo', text-color='white') {{ record.category }}
+        v-chip.my-2(small, color='teal', text-color='white') {{ record.country }}
+      .text-body-2 Author:
+        span.font-weight-bold {{ record.author }}
+    // v-card-actions
+      v-btn(@click='handleExpandDetail(i)' text color="teal accent-4") Learn More
+    // v-expand-transition
+      v-card.transition-fast-in-fast-out.v-card--reveal(v-show="is OpenIndex === i" v-if='isOpen' style='height: 100%;')
+        v-card-text.pb-0
+          p.display-1.text--primary {{record.title}}
+          p {{record.description}}
+        v-card-actions.pt-0
+          v-btn(color='teal accent-4' @click='isOpen = false') C
 </template>
 <script>
 export default {
@@ -30,6 +31,9 @@ export default {
     records: {
       type: Array,
       required: true,
+    },
+    loading: {
+      type: Boolean,
     },
   },
   data() {
@@ -41,6 +45,9 @@ export default {
   },
   mounted() {},
   methods: {
+    handleSortByTags() {
+      console.log('here');
+    },
     handleToLink(url) {
       window.open(url, '_blank');
     },
@@ -60,13 +67,21 @@ export default {
 .records-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  grid-gap: 3.2rem 1.6rem;
-  padding: 1.6rem;
+  grid-gap: 1.2rem;
+  padding: 3.2rem 1.6rem 1.6rem;
 }
 .v-card--reveal {
   bottom: 0;
   opacity: 1 !important;
   position: absolute;
   width: 100%;
+}
+
+.description-text {
+  margin-bottom: 8px;
+}
+
+.c-card01 {
+  box-shadow: none !important;
 }
 </style>

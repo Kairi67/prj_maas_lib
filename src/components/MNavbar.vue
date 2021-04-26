@@ -1,5 +1,21 @@
 <template lang="pug">
-  v-app-bar(color='white' flat='')
+  v-navigation-drawer(width="250" app)
+    v-list-item.py-2
+      v-list-item-content
+        v-list-item-title.headline MaaS.Land
+    v-divider
+    div.px-4.py-8
+      v-btn(@click="handleToLinkSubmit" block color='indigo') Submit New
+    // v-list-item(@click="handleToLinkSubmit")
+      v-list-item-icon
+        v-icon mdi-pencil
+      v-list-item-title Submit New
+    v-list(subheader three-line)
+      v-subheader Tags 
+      v-list-item
+        v-list-item-content
+          v-list-item-title tst
+  //v-app-bar(fixed color='white' flat)
     v-container.fill-height
       v-toolbar-title MaaS.Land
       v-spacer
@@ -25,3 +41,5 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped></style>

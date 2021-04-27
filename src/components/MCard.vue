@@ -3,17 +3,21 @@
   v-skeleton-loader(v-if="loading" type="card-avatar, article")  
   v-skeleton-loader(v-if="loading" type="card-avatar, article") 
   v-skeleton-loader(v-if="loading" type="card-avatar, article") 
-  v-card.c-card01(v-else v-for='(record, i) in records', :key='i', @click='handleToLink(record.link)')
-    v-img(:src='record.imageUrl[0].url', height='200px')
+  v-card.c-card01(v-else v-for='(record, i) in records', :key='i')
+    v-img(:src='record.fields.imageUrl[0].url', height='200px' @click='handleToLink(record.link)')
     v-card-text
-      v-card-title.pa-0.mb-2.font-weight-bold.text-h5 {{ record.title }}
-      .description-text {{ record.description }}
+      v-card-title.pa-0.mb-2.font-weight-bold.text-h5 {{ record.fields.title }}
+      .description-text {{ record.fields.description }}
       v-chip-group.mb-2(column)
-        v-chip.my-2(@click='handleSortByTags', small, color='indigo', text-color='white') {{ record.category }}
-        v-chip.my-2(small, color='indigo', text-color='white') {{ record.category }}
-        v-chip.my-2(small, color='teal', text-color='white') {{ record.country }}
-      .text-body-2 Author:
-        span.font-weight-bold {{ record.author }}
+        v-chip.my-2(@click='handleSortByTags', small, color='indigo', text-color='white') {{ record.fields.category }}
+        v-chip.my-2(small, color='indigo', text-color='white') {{ record.fields.category }}
+        v-chip.my-2(small, color='teal', text-color='white') {{ record.fields.country }}
+      div(style="display: flex; align-items: baseline; justify-content: space-between;")
+        .text-body-2 Author:
+          span.font-weight-bold {{ record.fields.author }}
+        v-btn.mr-4(icon @click="handleUpdateCounts(record.id)")
+          v-icon.mr-2(color="blue lighten-2") mdi-thumb-up
+          div {{ record.fields.counts }}
     // v-card-actions
       v-btn(@click='handleExpandDetail(i)' text color="teal accent-4") Learn More
     // v-expand-transition
@@ -25,6 +29,7 @@
           v-btn(color='teal accent-4' @click='isOpen = false') C
 </template>
 <script>
+import { updateCount } from '@/plugins/airtableClient';
 export default {
   components: {},
   props: {
@@ -45,6 +50,14 @@ export default {
   },
   mounted() {},
   methods: {
+    async handleUpdateCounts(id) {
+      console.log(id);
+      try {
+        await updateCount(id);
+      } finally {
+        location.reload();
+      }
+    },
     handleSortByTags() {
       console.log('here');
     },

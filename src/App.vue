@@ -19,6 +19,7 @@ export default {
   data() {
     return {
       records: [],
+      recordId: '',
       dialog: false,
       editedItem: {},
       loading: true,
@@ -28,20 +29,15 @@ export default {
     this.fetchListItems();
   },
   methods: {
-    showEditDialog(item) {
-      this.editedItem = item || {};
-      this.dialog = !this.dialog;
-    },
     async fetchListItems() {
       try {
         this.loading = true;
         await getListMaas().eachPage((response) => {
           console.log(response);
-          this.records = response.map((item) => item.fields);
+          this.records = response.map((item) => item);
           this.loading = false;
         });
       } finally {
-        console.log(1);
         this.loading = false;
       }
     },

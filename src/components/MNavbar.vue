@@ -14,7 +14,7 @@
       v-subheader Tags 
       v-list-item
         v-list-item-content
-          v-list-item-title tst
+         
   //v-app-bar(fixed color='white' flat)
     v-container.fill-height
       v-toolbar-title MaaS.Land

@@ -1,16 +1,21 @@
 <template lang="pug">
   v-app#app
-    m-navbar
+    m-navbar(:categorys="categorys" :fetchListItems="fetchListItems")
     v-main.grey.lighten-3
       v-container(fluid)
         v-row
           v-col
-            m-card(:records="records" :loading="loading")
+            m-card(
+              :records="records"
+              :loading="loading"
+              :fetchListItems="fetchListItems"
+               @clicked="handleSortByTags"
+              )
 </template>
 <script>
 import MNavbar from '@/components/MNavbar';
 import MCard from '@/components/MCard';
-import { getListMaas } from '@/plugins/airtableClient';
+import { getListMaas, findRecordByCategory } from '@/plugins/airtableClient';
 export default {
   components: {
     MNavbar,
@@ -19,7 +24,7 @@ export default {
   data() {
     return {
       records: [],
-      recordId: '',
+      categorys: [],
       dialog: false,
       editedItem: {},
       loading: true,
@@ -33,8 +38,19 @@ export default {
       try {
         this.loading = true;
         await getListMaas().eachPage((response) => {
-          console.log(response);
           this.records = response.map((item) => item);
+          this.categorys = response.flatMap((data) => data.fields.category);
+          this.loading = false;
+        });
+      } finally {
+        this.loading = false;
+      }
+    },
+    async handleSortByTags(tag) {
+      try {
+        this.loading = true;
+        await findRecordByCategory(tag).eachPage((record) => {
+          this.records = record.map((item) => item);
           this.loading = false;
         });
       } finally {
@@ -44,13 +60,10 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 #app {
-  /* max-width: 1100px; */
   margin: 0 auto;
 }
-
 .v-application--wrap {
   display: flex;
   flex-direction: row !important;

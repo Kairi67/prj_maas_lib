@@ -1,45 +1,54 @@
 <template lang="pug">
-  v-navigation-drawer(width="250" app)
-    v-list-item.py-2
-      v-list-item-content
-        v-list-item-title.headline MaaS.Land
+  v-navigation-drawer(width="240" app)
+    v-list-item.pa-4
+      v-list-item-content(@click="handleGetList")
+        v-list-item-title.mb-3(style='font-weight:500; font-size:2rem;') MaaS.Land
+        v-list-item-subtitle Awsome Mobility Tech
+        v-list-item-subtitle products for your next project.
     v-divider
-    div.px-4.py-8
-      v-btn(@click="handleToLinkSubmit" block color='indigo') Submit New
-    // v-list-item(@click="handleToLinkSubmit")
-      v-list-item-icon
-        v-icon mdi-pencil
-      v-list-item-title Submit New
-    v-list(subheader three-line)
-      v-subheader Tags 
-      v-list-item
+    div.px-4.pt-6.pb-4
+      v-btn.btn_submit(@click="handleToLinkSubmit" block) Submit New
+    v-list
+      v-list-item(v-for='(category, i) in filterCategory', :key='i' link color='indigo')
         v-list-item-content
-         
-  //v-app-bar(fixed color='white' flat)
-    v-container.fill-height
-      v-toolbar-title MaaS.Land
-      v-spacer
-      v-text-field(@change="updateField($event)" label="search" outlined hide-details rounded)
-      v-spacer
-      v-btn(text='' @click="handleToLinkSubmit") SUBMIT
-      v-btn(text='' @click="handleToLinkProfile") PROFILE
+          v-list-item-title(style="font-size: 15px; color: #3f51b5;") {{category}}
 </template>
-
 <script>
 export default {
+  props: {
+    categorys: {
+      type: Array,
+      required: true,
+    },
+    fetchListItems: {
+      type: Function,
+    },
+  },
   data() {
     return {};
   },
+  mounted() {},
+  computed: {
+    filterCategory: {
+      get: function () {
+        return [...new Set(this.categorys)].filter(Boolean);
+      },
+    },
+  },
   methods: {
-    updateField(event) {
-      console.log(event);
+    async handleGetList() {
+      await this.fetchListItems();
     },
     handleToLinkSubmit() {
       window.open('https://airtable.com/shr1OE5Z8PNcm2bNa', '_blank');
     },
-    handleToLinkProfile() {},
   },
 };
 </script>
-
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.btn_submit {
+  background-color: #3f51b5 !important;
+  color: white !important;
+  font-size: 16px;
+}
+</style>

@@ -59,11 +59,19 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@mixin layoutSp {
+  @media screen and (max-width: 800px) {
+    @content;
+  }
+}
 .records-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   grid-gap: 1.8rem;
   padding: 3.2rem 1.6rem 1.6rem;
+  @include layoutSp {
+    padding: 1.6rem 0rem 1.6rem;
+  }
 }
 .v-card--reveal {
   bottom: 0;

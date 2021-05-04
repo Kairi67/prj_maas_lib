@@ -1,6 +1,10 @@
 <template lang="pug">
   v-app#app
-    m-navbar(:categorys="categorys" :fetchListItems="fetchListItems")
+    m-navbar(
+      :categorys="categorys"
+      :fetchListItems="fetchListItems"
+      @clicked="handleSortByTags"
+      )
     v-main.grey.lighten-3
       v-container(fluid)
         v-row

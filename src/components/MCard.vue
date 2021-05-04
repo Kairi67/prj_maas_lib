@@ -4,7 +4,16 @@
   v-skeleton-loader(v-if="loading" type="card-avatar, article")
   v-skeleton-loader(v-if="loading" type="card-avatar, article")
   v-card.c-card01(v-else v-for='(record, i) in records', :key='i')
-    v-img(:src='record.fields.imageUrl[0].url', style="cursor: pointer; border-radius: 8px;" height='200px' @click='handleToLink(record.fields.link)')
+    v-tooltip(top)
+      template(v-slot:activator="{ on, attrs }")
+        v-img(
+          v-bind="attrs"
+          v-on="on"
+          :src='record.fields.imageUrl[0].url'
+          style="cursor: pointer; border-radius: 8px;" height='200px'
+          @click='handleToLink(record.fields.link)'
+          )
+      span {{record.fields.link}}
     v-card-text
       v-card-title.pa-0.mb-3.font-weight-bold.text-h5 {{ record.fields.title }}
       .description_area
@@ -41,6 +50,11 @@ export default {
     return {};
   },
   mounted() {},
+  computed: {
+    recordImage(record) {
+      return record.fields.imageUrl[0].url;
+    },
+  },
   methods: {
     async handleUpdateCounts(id, counts) {
       try {

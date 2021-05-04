@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    v-app-bar(flat fixed)
+    v-app-bar(v-if="$vuetify.breakpoint.xs" flat fixed)
       v-toolbar-title MaaS.Land
       v-spacer
       v-app-bar-nav-icon(@click="drawer = true")
@@ -16,9 +16,10 @@
           v-icon(left) mdi-plus 
           | Submit New
       v-list
+        v-list-item(@click="handleGetList" style="font-size: 16px; color: #164645 !important; font-weight: 500;") ALL
         v-list-item(v-for='(category, i) in filterCategory', :key='i' link color='indigo' style='min-height:42px;')
           v-list-item-content
-            v-list-item-title(style="font-size: 16px; color: #164645; font-weight: 500;") {{category}}
+            v-list-item-title(@click="handleSortByTags(category)" style="font-size: 16px; color: #164645; font-weight: 500;") {{category}}
 </template>
 <script>
 export default {
@@ -33,20 +34,23 @@ export default {
   },
   data() {
     return {
-      drawer: false,
+      drawer: true,
     };
   },
   mounted() {},
   computed: {
     filterCategory: {
       get: function () {
-        return [...new Set(this.categorys)].filter(Boolean);
+        return [...new Set(this.categorys)].filter(Boolean).sort();
       },
     },
   },
   methods: {
     async handleGetList() {
       await this.fetchListItems();
+    },
+    handleSortByTags(tag) {
+      this.$emit('clicked', tag);
     },
     handleToLinkSubmit() {
       window.open('https://airtable.com/shr1OE5Z8PNcm2bNa', '_blank');

@@ -61,7 +61,7 @@ export default {
 <style lang="scss" scoped>
 .btn_submit {
   color: #3f51b5 !important;
-  font-size: 16px !important;
+  font-size: 15.4px !important;
   border: 2px solid #3f51b5;
 }
 </style>

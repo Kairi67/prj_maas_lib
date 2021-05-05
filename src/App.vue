@@ -42,7 +42,10 @@ export default {
       try {
         this.loading = true;
         await getListMaas().eachPage((response) => {
-          this.records = response.map((item) => item);
+          this.records = response.map((item) => {
+            console.log(item);
+            return item;
+          });
           this.categorys = response.flatMap((data) => data.fields.category);
           this.loading = false;
         });

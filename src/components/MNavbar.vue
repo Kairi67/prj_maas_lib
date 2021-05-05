@@ -16,10 +16,10 @@
           v-icon(left) mdi-plus 
           | Submit New
       v-list
-        v-list-item(@click="handleGetList" style="font-size: 16px; color: #164645 !important; font-weight: 500;") ALL
+        v-list-item(@click="handleGetList" style="font-size: 16px; color: #333 !important; font-weight: 500;") ALL
         v-list-item(v-for='(category, i) in filterCategory', :key='i' link color='indigo' style='min-height:42px;')
           v-list-item-content
-            v-list-item-title(@click="handleSortByTags(category)" style="font-size: 16px; color: #164645; font-weight: 500;") {{category}}
+            v-list-item-title(@click="handleSortByTags(category)" style="font-size: 16px; color: #333; font-weight: 500;") {{category}}
 </template>
 <script>
 export default {
@@ -60,8 +60,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .btn_submit {
-  color: #164645 !important;
+  color: #3f51b5 !important;
   font-size: 16px !important;
-  border: 2px solid #164645;
+  border: 2px solid #3f51b5;
 }
 </style>

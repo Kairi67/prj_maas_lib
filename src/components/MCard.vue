@@ -9,7 +9,7 @@
         v-img(
           v-bind="attrs"
           v-on="on"
-          :src='record.fields.imageUrl[0].url'
+          :src='recordImage(record.fields)'
           style="cursor: pointer; border-radius: 8px;" height='200px'
           @click='handleToLink(record.fields.link)'
           )
@@ -47,14 +47,12 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      noimage: require('@/assets/noimage.png'),
+    };
   },
   mounted() {},
-  computed: {
-    recordImage(record) {
-      return record.fields.imageUrl[0].url;
-    },
-  },
+  computed: {},
   methods: {
     async handleUpdateCounts(id, counts) {
       try {
@@ -62,6 +60,9 @@ export default {
       } finally {
         this.fetchListItems();
       }
+    },
+    recordImage(fields) {
+      return fields.imageUrl ? fields.imageUrl[0].url : this.noimage;
     },
     handleSortByTags(tag) {
       this.$emit('clicked', tag);

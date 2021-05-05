@@ -16,10 +16,10 @@
           v-icon(left) mdi-plus 
           | Submit New
       v-list
-        v-list-item(@click="handleGetList" style="font-size: 16px; color: #333 !important; font-weight: 500;") ALL
+        v-list-item(@click="handleGetList" style="font-size: 15.4px; color: #333 !important; font-weight: 500;") ALL
         v-list-item(v-for='(category, i) in filterCategory', :key='i' link color='indigo' style='min-height:42px;')
           v-list-item-content
-            v-list-item-title(@click="handleSortByTags(category)" style="font-size: 16px; color: #333; font-weight: 500;") {{category}}
+            v-list-item-title(@click="handleSortByTags(category)" style="font-size: 15.4px; color: #333; font-weight: 500;") {{category}}
 </template>
 <script>
 export default {

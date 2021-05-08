@@ -4,7 +4,7 @@
       :categorys="categorys"
       :fetchListItems="fetchListItems"
       @clicked="handleSortByTags"
-      )
+    )
     v-main.grey.lighten-3
       v-container(fluid)
         v-row
@@ -13,13 +13,14 @@
               :records="records"
               :loading="loading"
               :fetchListItems="fetchListItems"
-               @clicked="handleSortByTags"
-              )
+               @clickedTag="handleSortByTags"
+               @clickedCountry="handleSortByCountry"
+            )
 </template>
 <script>
 import MNavbar from '@/components/MNavbar';
 import MCard from '@/components/MCard';
-import { getListMaas, findRecordByCategory } from '@/plugins/airtableClient';
+import AirtableClient from '@/plugins/airtableClient';
 export default {
   components: {
     MNavbar,
@@ -29,8 +30,6 @@ export default {
     return {
       records: [],
       categorys: [],
-      dialog: false,
-      editedItem: {},
       loading: true,
     };
   },
@@ -41,7 +40,7 @@ export default {
     async fetchListItems() {
       try {
         this.loading = true;
-        await getListMaas().eachPage((response) => {
+        await AirtableClient.getRecordLists().eachPage((response) => {
           this.records = response.map((item) => {
             return item;
           });
@@ -55,7 +54,18 @@ export default {
     async handleSortByTags(tag) {
       try {
         this.loading = true;
-        await findRecordByCategory(tag).eachPage((record) => {
+        await AirtableClient.findRecordByCategory(tag).eachPage((record) => {
+          this.records = record.map((item) => item);
+          this.loading = false;
+        });
+      } finally {
+        this.loading = false;
+      }
+    },
+    async handleSortByCountry(country) {
+      try {
+        this.loading = true;
+        await AirtableClient.findRecordByCountry(country).eachPage((record) => {
           this.records = record.map((item) => item);
           this.loading = false;
         });
@@ -66,7 +76,12 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@mixin layoutSp {
+  @media screen and (max-width: 800px) {
+    @content;
+  }
+}
 #app {
   margin: 0 auto;
 }

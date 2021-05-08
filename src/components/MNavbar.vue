@@ -4,10 +4,10 @@
       v-toolbar-title MaaS.Land
       v-spacer
       v-app-bar-nav-icon(@click="drawer = true")
-    v-navigation-drawer(width="240" app v-model="drawer")
+    v-navigation-drawer(app v-model="drawer" width="240")
       v-list-item.pa-4
         v-list-item-content(@click="handleGetList")
-          v-list-item-title.mb-3(style='font-weight:500; font-size:2rem; color:#333') MaaS.Land
+          v-list-item-title.mb-3.heading_title MaaS.Land
           v-list-item-subtitle Awsome Mobility Tech
           v-list-item-subtitle products for your next project.
       v-divider
@@ -16,10 +16,10 @@
           v-icon(left) mdi-plus 
           | Submit New
       v-list
-        v-list-item(@click="handleGetList" style="font-size: 15.4px; color: #333 !important; font-weight: 500;") ALL
+        v-list-item.text_category(@click="handleGetList") ALL
         v-list-item(v-for='(category, i) in filterCategory', :key='i' link color='indigo' style='min-height:42px;')
           v-list-item-content
-            v-list-item-title(@click="handleSortByTags(category)" style="font-size: 15.4px; color: #333; font-weight: 500;") {{category}}
+            v-list-item-title.text_category(@click="handleSortByTags(category)") {{category}}
 </template>
 <script>
 export default {
@@ -37,7 +37,6 @@ export default {
       drawer: true,
     };
   },
-  mounted() {},
   computed: {
     filterCategory: {
       get: function () {
@@ -59,6 +58,16 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.heading_title {
+  font-weight: 500;
+  font-size: 2rem;
+  color: #333;
+}
+.text_category {
+  font-size: 15.4px;
+  color: #333 !important;
+  font-weight: 500;
+}
 .btn_submit {
   color: #3f51b5 !important;
   font-size: 15.4px !important;

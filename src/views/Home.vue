@@ -10,6 +10,7 @@
         v-row
           v-col
             m-card(
+              v-if="$auth.isAuthenticated"
               :records="records"
               :loading="loading"
               :fetchListItems="fetchListItems"

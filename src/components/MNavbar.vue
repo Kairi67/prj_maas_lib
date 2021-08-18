@@ -8,17 +8,16 @@
       v-list-item.pa-4
         v-list-item-content(@click="handleGetList")
           v-list-item-title.mb-3.heading_title MaaS.Land
-          v-list-item-subtitle Awsome Mobility Tech
+          v-list-item-subtitle Awesome Mobility Tech
           v-list-item-subtitle products for your next project.
-      v-divider
-      div.px-4.pt-6.pb-4(v-if="!$auth.isAuthenticated")
-        v-btn.btn_submit(@click="handleLoginAction" block outlined)
-          v-icon(left) mdi-plus
+      div.px-4.pt-4.pb-4
+        v-btn.btn_auth(v-if="!$auth.isAuthenticated" @click="handleLoginAction" block outlined)
+          v-icon(left) mdi-account-arrow-left
           | Login
-      div.px-4.pt-6.pb-4(v-if="$auth.isAuthenticated")
-        v-btn.btn_submit(@click="handleLogoutAction" block outlined)
-          v-icon(left) mdi-plus
+        v-btn.btn_auth(v-else @click="handleLogoutAction" block outlined)
+          v-icon(left) mdi-account-arrow-right
           | Logout
+      v-divider
       div.px-4.pt-6.pb-4
         v-btn.btn_submit(@click="handleToLinkSubmit" block outlined)
           v-icon(left) mdi-plus
@@ -85,6 +84,13 @@ export default {
   color: #333 !important;
   font-weight: 500;
 }
+.btn_auth {
+  color: #fff !important;
+  background-color: #3f51b5;
+  font-size: 15.4px !important;
+  border: 2px solid #3f51b5;
+}
+
 .btn_submit {
   color: #3f51b5 !important;
   font-size: 15.4px !important;

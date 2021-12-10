@@ -13,7 +13,7 @@
       div.px-4.pt-4.pb-4
         v-btn.btn_auth(v-if="!$auth.isAuthenticated" @click="handleLoginAction" block outlined)
           v-icon(left) mdi-account-arrow-left
-          | Login
+          | Logout
         v-btn.btn_auth(v-else @click="handleLogoutAction" block outlined)
           v-icon(left) mdi-account-arrow-right
           | Logout

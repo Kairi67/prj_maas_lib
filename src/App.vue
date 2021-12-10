@@ -10,13 +10,20 @@
         v-row
           v-col
             m-card(
-              v-if="$auth.isAuthenticated"
               :records="records"
               :loading="loading"
               :fetchListItems="fetchListItems"
               @clickedTag="handleSortByTags"
               @clickedCountry="handleSortByCountry"
             )
+            //m-card(
+              v-if="$auth.isAuthenticated"
+              :records="records"
+              :loading="loading"
+              :fetchListItems="fetchListItems"
+              @clickedTag="handleSortByTags"
+              @clickedCountry="handleSortByCountry"
+              )
 </template>
 <script>
 import MNavbar from '@/components/MNavbar';

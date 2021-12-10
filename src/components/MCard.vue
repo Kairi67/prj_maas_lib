@@ -28,7 +28,7 @@
           span.font-weight-bold {{ record.fields.author }}
         v-btn.mr-4(icon @click="handleUpdateCounts(record.id, record.fields.counts)")
           v-icon.mr-2(color="blue lighten-2") mdi-thumb-up
-          div {{ showCount(record.fields.counts) }}
+          div {{ record.fields.counts }}
 </template>
 <script>
 import AirtableClient from '@/plugins/airtableClient';
@@ -53,26 +53,16 @@ export default {
     };
   },
   created() {
-    console.log(this.records);
+    //console.log(this.records);
   },
-
-  computed: {},
 
   methods: {
     async handleUpdateCounts(id, counts) {
-      return counts++;
-      // try {
-      //   await AirtableClient.updateRecordCounts(id, counts);
-      // } finally {
-      //   this.fetchListItems();
-      // }
-    },
-    showCount(recordCount) {
-      return (this.count = recordCount);
-    },
-    test(id, counts) {
-      this.count = counts + 1;
-      console.log(this.count);
+      try {
+        await AirtableClient.updateRecordCounts(id, counts);
+      } finally {
+        this.fetchListItems();
+      }
     },
     handleSortByTags(tag) {
       this.$emit('clickedTag', tag);

@@ -1,15 +1,14 @@
 <template lang="pug">
   div
     v-app-bar(v-if="$vuetify.breakpoint.xs" flat fixed)
-      v-toolbar-title MaaS.Land
+      v-toolbar-title MaaS Book
       v-spacer
       v-app-bar-nav-icon(@click="drawer = true")
     v-navigation-drawer(app v-model="drawer" width="240")
       v-list-item.pa-4
         v-list-item-content(@click="handleGetList")
-          v-list-item-title.mb-3.heading_title MaaS.Land
-          v-list-item-subtitle Awesome Mobility Tech
-          v-list-item-subtitle products for your next project.
+          v-list-item-title.mb-3.heading_title MaaS Book
+          v-list-item-subtitle Awesome Mobility Tech as a Service
       div.px-4.pt-4.pb-4
         v-btn.btn_auth(v-if="!$auth.isAuthenticated" @click="handleLoginAction" block outlined)
           v-icon(left) mdi-account-arrow-left
@@ -58,9 +57,9 @@ export default {
     handleSortByTags(tag) {
       this.$emit('clicked', tag);
     },
-    handleToLinkSubmit() {
-      window.open('https://airtable.com/shr1OE5Z8PNcm2bNa', '_blank');
-    },
+    // handleToLinkSubmit() {
+    //   window.open('https://airtable.com/shr1OE5Z8PNcm2bNa', '_blank');
+    // },
     handleLoginAction() {
       this.$auth.loginWithRedirect();
     },
